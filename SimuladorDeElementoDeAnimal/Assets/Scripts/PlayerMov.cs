@@ -5,14 +5,15 @@ using UnityEngine;
 public class PlayerMov : MonoBehaviour
 {
  private CharacterController controller;
-    [SerializeField] private float speed = 5f, rotationSpeed = 10f, gravity = 9.81f;
-    [SerializeField] float jumpForce;
+    [SerializeField] private float speed = 5f, rotationSpeed = 10f, gravity = 32;
+    [SerializeField] float jumpForce = 14f;
     private Vector3 velocity;
     
     [SerializeField] private Transform cameraTransform; 
 
     void Start()
     {
+        cameraTransform = Camera.main.transform;
         controller = GetComponent<CharacterController>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
