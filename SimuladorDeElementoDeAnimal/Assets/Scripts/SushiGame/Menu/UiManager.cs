@@ -5,6 +5,7 @@ using UnityEngine;
 public class UiManager : MonoBehaviour
 {
     [SerializeField] float maxRotX, maxRotY;
+    [SerializeField] float camVelocity = 10f;
     Transform camera;
     [SerializeField] float rotX, rotY;
     // Start is called before the first frame update
@@ -18,12 +19,12 @@ public class UiManager : MonoBehaviour
     {
 
         
-        float mouseX = Input.GetAxis("Mouse X")  * Time.deltaTime * 10;
-        float mouseY = Input.GetAxis("Mouse Y")  * Time.deltaTime * 10;
+        float mouseX = Input.GetAxis("Mouse X")  * Time.deltaTime * camVelocity;
+        float mouseY = Input.GetAxis("Mouse Y")  * Time.deltaTime * camVelocity;
 
        
-        rotY += mouseX;
-        rotX -= mouseY;
+        rotY += mouseX + camera.eulerAngles.x;
+        rotX -= mouseY + camera.eulerAngles.y;
 
         
         rotX = Mathf.Clamp(rotX, -maxRotX, maxRotX);
