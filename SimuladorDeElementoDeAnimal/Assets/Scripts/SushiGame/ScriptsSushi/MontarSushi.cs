@@ -48,6 +48,8 @@ public class MontarSushi : MonoBehaviour
     public static MontarSushi montaSushi;
     public GameObject[] mesas;
     int numeroDeNpc;
+    bool naoFezNada;
+    public GameObject naoFez;
     // Start is called before the first frame update
     void Start()
     {
@@ -64,6 +66,7 @@ public class MontarSushi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(pedidoLegal);
         if (canOpenRefrigerator && Input.GetKeyDown(KeyCode.E))
         {
             refrigeratorIsOpen = !refrigeratorIsOpen;
@@ -103,11 +106,11 @@ public class MontarSushi : MonoBehaviour
         if(!taFabricandoPedido && canTalkNpc &&  Input.GetKeyDown(KeyCode.E))
         {
             Order();
+            taFabricandoPedido = true;
         }
         if (taFabricandoPedido && canTalkNpc && Input.GetKeyDown(KeyCode.E))
         {
             EntregarProCliente();
-
         }
     }
     private void OnTriggerEnter(Collider other)
@@ -115,22 +118,22 @@ public class MontarSushi : MonoBehaviour
         if (other.CompareTag("Refrigerator"))
         {
             canOpenRefrigerator = true;
-            Debug.Log("Encostou");
+          
         }
         if (other.CompareTag("Shelve"))
         {
             canOpenShelve = true;
-            Debug.Log("Encostou");
+           
         }
         if (other.CompareTag("MesaDePreparo"))
         {
             isTouchingMesaDePreparo = true;
-            Debug.Log("Encostou");
+            
         }
         if (other.CompareTag("NpcTalk"))
         {
             canTalkNpc = true;
-            Debug.Log("Encostou");
+            
         }
     }
     private void OnTriggerExit(Collider other)
@@ -138,17 +141,17 @@ public class MontarSushi : MonoBehaviour
         if (other.CompareTag("Refrigerator"))
         {
             canOpenRefrigerator = false;
-            Debug.Log("Saiu");
+            
         }
         if (other.CompareTag("Shelve"))
         {
             canOpenShelve = false;
-            Debug.Log("Encostou");
+            
         }
         if (other.CompareTag("NpcTalk"))
         {
             canTalkNpc = false;
-            Debug.Log("Encostou");
+           
         }
     }
     public void RefrigeratorIngred(string type)
@@ -239,21 +242,28 @@ public class MontarSushi : MonoBehaviour
         {
             sushiDiddy[0].SetActive(true);
             didRice_Salmao_Seaweed = true;
+            naoFezNada = false;
         }
         if(putRice && putSeaweed &&  putCreamcheese)
         {
             sushiDiddy[1].SetActive(true);
             didRice_Seaweed_CreamCheese = true;
+            naoFezNada = false;
+
         }
-        if(putSalmon && putRice && putCreamcheese)
+        if (putSalmon && putRice && putCreamcheese)
         {
             sushiDiddy[2].SetActive(true);
             didSalmao_Rice_Creamcheese = true;
+            naoFezNada = false;
+
         }
-        if(putSalmon && putCreamcheese)
+        if (putSalmon && putCreamcheese)
         {
             sushiDiddy[3].SetActive(true);
             didSalmao_CreamCheese = true;
+            naoFezNada = false;
+
         }
     }
     void Verificacao2()
@@ -287,40 +297,67 @@ public class MontarSushi : MonoBehaviour
             if(i == randomIndex)
             {
                 pedidoLegal = receba2[i];
+              
             }
         }
-        taFabricandoPedido = true;
+
     }
     public void EntregarProCliente()
     {
         if(pedidoLegal == "didRice_Salmao_Seaweed" && didRice_Salmao_Seaweed)
         {
             uiPedidos[0].SetActive(false);
+            sushiDiddy[0].SetActive(false);
+            sushiDiddy[1].SetActive(false);
+            sushiDiddy[2].SetActive(false);
+            sushiDiddy[3].SetActive(false);
             pedidoLegal = "";
+            Debug.Log(didRice_Salmao_Seaweed);
+
         }
         if (pedidoLegal == "didRice_Seaweed_CreamCheese" && didRice_Seaweed_CreamCheese)
         {
             uiPedidos[1].SetActive(false);
             pedidoLegal = "";
+            Debug.Log(didRice_Seaweed_CreamCheese);
+            sushiDiddy[0].SetActive(false);
+            sushiDiddy[1].SetActive(false);
+            sushiDiddy[2].SetActive(false);
+            sushiDiddy[3].SetActive(false);
         }
         if (pedidoLegal == "didSalmao_Rice_Creamcheese" && didSalmao_Rice_Creamcheese)
         {
             uiPedidos[2].SetActive(false);
             pedidoLegal = "";
+            Debug.Log(didSalmao_Rice_Creamcheese);
+            sushiDiddy[0].SetActive(false);
+            sushiDiddy[1].SetActive(false);
+            sushiDiddy[2].SetActive(false);
+            sushiDiddy[3].SetActive(false);
         }
         if (pedidoLegal == "didSalmao_CreamCheese" && didSalmao_CreamCheese)
         {
             uiPedidos[3].SetActive(false);
             pedidoLegal = "";
+            Debug.Log(didSalmao_CreamCheese);
+            sushiDiddy[0].SetActive(false);
+            sushiDiddy[1].SetActive(false);
+            sushiDiddy[2].SetActive(false);
+            sushiDiddy[3].SetActive(false);
+        }
+        if (naoFezNada)
+        {
+            StartCoroutine(AparecerEdesaparecer(naoFez));
         }
         didRice_Salmao_Seaweed = false;
         didRice_Seaweed_CreamCheese = false;
         didSalmao_Rice_Creamcheese = false;
         didSalmao_CreamCheese = false;
-        taFabricandoPedido = false;
+        naoFezNada = true;
+
     }
 
-   IEnumerator NpcSpawn()
+    IEnumerator NpcSpawn()
     {
        
         yield return new WaitForSeconds(5);
@@ -333,6 +370,12 @@ public class MontarSushi : MonoBehaviour
         }
      
         StartCoroutine(NpcSpawn());
+    }
+    IEnumerator AparecerEdesaparecer(GameObject vaiAparecerEdesaparecer)
+    {
+        vaiAparecerEdesaparecer.SetActive(true);
+        yield return new WaitForSeconds(3);
+        vaiAparecerEdesaparecer.SetActive(false);
     }
     //diminuir n quando npc sai da loja
 }
