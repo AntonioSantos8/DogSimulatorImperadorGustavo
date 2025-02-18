@@ -8,6 +8,7 @@ TagManager:
   - Shelve
   - Destination
   - MesaDePreparo
+  - NpcTalk
   layers:
   - Default
   - TransparentFX

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class MontarSushi : MonoBehaviour
 {
@@ -22,12 +23,6 @@ public class MontarSushi : MonoBehaviour
     GameObject[] oorder;
 
     [Header("MesaDePreparo")]
-    bool riceB;
-    bool seaweedB;
-    bool salmonB;
-    [Space]
-    bool creamcheeseB;
-    bool handItemB;
     bool isTouchingMesaDePreparo;
     string handItem;
     [Space]
@@ -42,12 +37,30 @@ public class MontarSushi : MonoBehaviour
     bool didSalmao_CreamCheese;
     [Space]
     public GameObject[] sushiDiddy;
+    public string[] receba2;
+    public string pedidoLegal;
+    public GameObject[] uiPedidos;
+    bool canTalkNpc;
+    bool taFabricandoPedido;
+    [Header("NpcSpawn")]
+    public GameObject npcSpawn;
+    public GameObject[] npc;
+    public static MontarSushi montaSushi;
+    public GameObject[] mesas;
+    int numeroDeNpc;
     // Start is called before the first frame update
     void Start()
     {
-        
+        StartCoroutine(NpcSpawn());
     }
-
+    public void Awake()
+    {
+        montaSushi = this;
+    }
+    public static GameObject[] getTables()
+    {
+        return montaSushi.mesas;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -86,6 +99,16 @@ public class MontarSushi : MonoBehaviour
             PutIngredient();
         }
         Vericacao();
+        Verificacao2();
+        if(!taFabricandoPedido && canTalkNpc &&  Input.GetKeyDown(KeyCode.E))
+        {
+            Order();
+        }
+        if (taFabricandoPedido && canTalkNpc && Input.GetKeyDown(KeyCode.E))
+        {
+            EntregarProCliente();
+
+        }
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -104,6 +127,11 @@ public class MontarSushi : MonoBehaviour
             isTouchingMesaDePreparo = true;
             Debug.Log("Encostou");
         }
+        if (other.CompareTag("NpcTalk"))
+        {
+            canTalkNpc = true;
+            Debug.Log("Encostou");
+        }
     }
     private void OnTriggerExit(Collider other)
     {
@@ -117,9 +145,9 @@ public class MontarSushi : MonoBehaviour
             canOpenShelve = false;
             Debug.Log("Encostou");
         }
-        if (other.CompareTag("MesaDePreparo"))
+        if (other.CompareTag("NpcTalk"))
         {
-            isTouchingMesaDePreparo = false;
+            canTalkNpc = false;
             Debug.Log("Encostou");
         }
     }
@@ -155,22 +183,23 @@ public class MontarSushi : MonoBehaviour
         {
             case "Rice":
                 shelveIngredients[0].SetActive(true);
-                riceB = true;
+                
                 handItem = "Rice";
                 break;
             case "Salmon":
                 shelveIngredients[1].SetActive(true);
-                salmonB = true;
+                
                 handItem = "Salmon";
                 break;
             case "Seaweed":
                 shelveIngredients[2].SetActive(true);
-                seaweedB = true;
+                
                 handItem = "Seaweed";
                 break;
             case "CreamCheese":
                 shelveIngredients[3].SetActive(true);
-                creamcheeseB = true;
+                Debug.Log("Pegou CreamCheese");
+
                 handItem = "CreamCheese";
                 break;
 
@@ -227,15 +256,83 @@ public class MontarSushi : MonoBehaviour
             didSalmao_CreamCheese = true;
         }
     }
+    void Verificacao2()
+    {
+        if (pedidoLegal == "didRice_Salmao_Seaweed")
+        {
+            uiPedidos[0].SetActive(true);
+           
+        }
+        if (pedidoLegal == "didRice_Seaweed_CreamCheese")
+        {
+            uiPedidos[1].SetActive(true);
+            
+        }
+        if (pedidoLegal == "didSalmao_Rice_Creamcheese")
+        {
+            uiPedidos[2].SetActive(true);
+            
+        }
+        if (pedidoLegal == "didSalmao_CreamCheese")
+        {
+            uiPedidos[3].SetActive(true);
+           
+        }
+    }
     public void Order()
     {
-        int randomIndex = Random.Range(0, oorder.Length);
-        for (int i = 0; i < oorder.Length; i++)
+        int randomIndex = Random.Range(0, receba2.Length);
+        for (int i = 0; i < receba2.Length; i++)
         {
             if(i == randomIndex)
             {
-                oorder[i].SetActive(true);
+                pedidoLegal = receba2[i];
             }
         }
+        taFabricandoPedido = true;
     }
+    public void EntregarProCliente()
+    {
+        if(pedidoLegal == "didRice_Salmao_Seaweed" && didRice_Salmao_Seaweed)
+        {
+            uiPedidos[0].SetActive(false);
+            pedidoLegal = "";
+        }
+        if (pedidoLegal == "didRice_Seaweed_CreamCheese" && didRice_Seaweed_CreamCheese)
+        {
+            uiPedidos[1].SetActive(false);
+            pedidoLegal = "";
+        }
+        if (pedidoLegal == "didSalmao_Rice_Creamcheese" && didSalmao_Rice_Creamcheese)
+        {
+            uiPedidos[2].SetActive(false);
+            pedidoLegal = "";
+        }
+        if (pedidoLegal == "didSalmao_CreamCheese" && didSalmao_CreamCheese)
+        {
+            uiPedidos[3].SetActive(false);
+            pedidoLegal = "";
+        }
+        didRice_Salmao_Seaweed = false;
+        didRice_Seaweed_CreamCheese = false;
+        didSalmao_Rice_Creamcheese = false;
+        didSalmao_CreamCheese = false;
+        taFabricandoPedido = false;
+    }
+
+   IEnumerator NpcSpawn()
+    {
+       
+        yield return new WaitForSeconds(5);
+        
+        while (numeroDeNpc < 3)
+        {
+            Instantiate(npc[Random.Range(0, npc.Length)], npcSpawn.transform.position, npcSpawn.transform.rotation);
+            numeroDeNpc += 1;
+            yield return new WaitForSeconds(3);
+        }
+     
+        StartCoroutine(NpcSpawn());
+    }
+    //diminuir n quando npc sai da loja
 }

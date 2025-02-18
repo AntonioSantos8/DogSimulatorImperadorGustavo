@@ -5,13 +5,15 @@ using UnityEngine.AI;
 public class Npc : MonoBehaviour
 {
     public GameObject[] navMeshDestination;
-
+    MontarSushi montarSushi;
 
     // Start is called before the first frame update
     void Start()
     {
-
+        navMeshDestination = MontarSushi.getTables();
+        montarSushi = FindObjectOfType<MontarSushi>();
         StartCoroutine(NavDest());
+        
     }
 
     // Update is called once per frame
@@ -45,6 +47,7 @@ public class Npc : MonoBehaviour
     IEnumerator NextAction()
     {
         yield return new WaitForSeconds(10);
-
+        montarSushi.Order();
+        yield return new WaitForSeconds(10);
     }
 }
