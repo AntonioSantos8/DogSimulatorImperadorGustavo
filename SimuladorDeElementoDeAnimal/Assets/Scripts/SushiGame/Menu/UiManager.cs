@@ -12,6 +12,8 @@ public class UiManager : MonoBehaviour
     void Start()
     {
         camera = Camera.main.transform;
+        rotX += camera.eulerAngles.x;
+        rotY += camera.eulerAngles.y;
     }
 
     // Update is called once per frame
@@ -23,8 +25,8 @@ public class UiManager : MonoBehaviour
         float mouseY = Input.GetAxis("Mouse Y")  * Time.deltaTime * camVelocity;
 
        
-        rotY += mouseX + camera.eulerAngles.x;
-        rotX -= mouseY + camera.eulerAngles.y;
+        rotY += mouseX;
+        rotX -= mouseY;
 
         
         rotX = Mathf.Clamp(rotX, -maxRotX, maxRotX);
