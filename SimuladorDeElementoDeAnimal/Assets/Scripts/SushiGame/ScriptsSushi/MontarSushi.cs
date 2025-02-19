@@ -265,6 +265,7 @@ public class MontarSushi : MonoBehaviour
             naoFezNada = false;
 
         }
+        
     }
     void Verificacao2()
     {
@@ -308,9 +309,7 @@ public class MontarSushi : MonoBehaviour
         {
             uiPedidos[0].SetActive(false);
             sushiDiddy[0].SetActive(false);
-            sushiDiddy[1].SetActive(false);
-            sushiDiddy[2].SetActive(false);
-            sushiDiddy[3].SetActive(false);
+            
             pedidoLegal = "";
             Debug.Log(didRice_Salmao_Seaweed);
 
@@ -320,29 +319,25 @@ public class MontarSushi : MonoBehaviour
             uiPedidos[1].SetActive(false);
             pedidoLegal = "";
             Debug.Log(didRice_Seaweed_CreamCheese);
-            sushiDiddy[0].SetActive(false);
+            
             sushiDiddy[1].SetActive(false);
-            sushiDiddy[2].SetActive(false);
-            sushiDiddy[3].SetActive(false);
+            
         }
         if (pedidoLegal == "didSalmao_Rice_Creamcheese" && didSalmao_Rice_Creamcheese)
         {
             uiPedidos[2].SetActive(false);
             pedidoLegal = "";
             Debug.Log(didSalmao_Rice_Creamcheese);
-            sushiDiddy[0].SetActive(false);
-            sushiDiddy[1].SetActive(false);
+            
             sushiDiddy[2].SetActive(false);
-            sushiDiddy[3].SetActive(false);
+           
         }
         if (pedidoLegal == "didSalmao_CreamCheese" && didSalmao_CreamCheese)
         {
             uiPedidos[3].SetActive(false);
             pedidoLegal = "";
             Debug.Log(didSalmao_CreamCheese);
-            sushiDiddy[0].SetActive(false);
-            sushiDiddy[1].SetActive(false);
-            sushiDiddy[2].SetActive(false);
+           
             sushiDiddy[3].SetActive(false);
         }
         if (naoFezNada)
@@ -354,6 +349,10 @@ public class MontarSushi : MonoBehaviour
         didSalmao_Rice_Creamcheese = false;
         didSalmao_CreamCheese = false;
         naoFezNada = true;
+        putSalmon = false;
+        putCreamcheese = false;
+        putRice = false;
+        putSeaweed = false;
 
     }
 
@@ -377,5 +376,6 @@ public class MontarSushi : MonoBehaviour
         yield return new WaitForSeconds(3);
         vaiAparecerEdesaparecer.SetActive(false);
     }
+    
     //diminuir n quando npc sai da loja
 }
