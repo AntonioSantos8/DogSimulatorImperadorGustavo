@@ -9,6 +9,7 @@ TagManager:
   - Destination
   - MesaDePreparo
   - NpcTalk
+  - Trash
   layers:
   - Default
   - TransparentFX
