@@ -10,6 +10,7 @@ TagManager:
   - MesaDePreparo
   - NpcTalk
   - Trash
+  - Npc
   layers:
   - Default
   - TransparentFX

@@ -46,7 +46,7 @@ public class MontarSushi : MonoBehaviour
     public GameObject npcSpawn;
     public GameObject[] npc;
     public static MontarSushi montaSushi;
-    public GameObject[] mesas;
+    public List<GameObject> mesas;
  
     public int numeroDeNpc;
     public GameObject naoFez;
@@ -59,7 +59,7 @@ public class MontarSushi : MonoBehaviour
     {
         montaSushi = this;
     }
-    public static GameObject[] getTables()
+    public static List<GameObject> getTables()
     {
         return montaSushi.mesas;
     }

@@ -1,16 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class Npc : MonoBehaviour
 {
-    public GameObject[] navMeshDestination;
+    public List<GameObject> navMeshDestination;
     MontarSushi montarSushi;
-
+    [SerializeField] GameObject otherDest;
+   
+    
     // Start is called before the first frame update
     void Start()
     {
-        navMeshDestination = MontarSushi.getTables();
         montarSushi = FindObjectOfType<MontarSushi>();
         StartCoroutine(NavDest());
         
@@ -21,33 +23,32 @@ public class Npc : MonoBehaviour
     {
         
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Destination"))
-        {
-
-        }
-    }
-    
+   
     IEnumerator NavDest()
     {
+        navMeshDestination = MontarSushi.getTables();
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
-        int randomIndex = Random.Range(0, navMeshDestination.Length);
+        int randomIndex = Random.Range(0, navMeshDestination.Count);
         
-        for (int i = 0; i < navMeshDestination.Length; i++)
+        for (int i = 0; i < navMeshDestination.Count; i++)
         {
             if(i == randomIndex)
             {
                 agent.SetDestination(navMeshDestination[i].transform.position);
             }
+            
+
         }
 
+        montarSushi.mesas.Remove(navMeshDestination[randomIndex]);
         yield return new WaitForSeconds(1);
     }
     IEnumerator NextAction()
     {
+        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+
         yield return new WaitForSeconds(10);
-        montarSushi.Order();
-        yield return new WaitForSeconds(10);
+        agent.SetDestination(otherDest.transform.position);
+       
     }
 }
