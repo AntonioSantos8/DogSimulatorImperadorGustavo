@@ -3965,6 +3965,8 @@ MonoBehaviour:
   - {fileID: 711979989}
   numeroDeNpc: 0
   naoFez: {fileID: 483030956}
+  pedidoEntregue: 0
+  otherDest: {fileID: 1767784497}
 --- !u!1 &1433754009
 GameObject:
   m_ObjectHideFlags: 0

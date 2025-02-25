@@ -7,7 +7,7 @@ public class Npc : MonoBehaviour
 {
     public List<GameObject> navMeshDestination;
     MontarSushi montarSushi;
-    [SerializeField] GameObject otherDest;
+
    
     
     // Start is called before the first frame update
@@ -21,7 +21,10 @@ public class Npc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (montarSushi.pedidoEntregue)
+        {
+            NextAction();
+        }
     }
    
     IEnumerator NavDest()
@@ -43,12 +46,15 @@ public class Npc : MonoBehaviour
         montarSushi.mesas.Remove(navMeshDestination[randomIndex]);
         yield return new WaitForSeconds(1);
     }
-    IEnumerator NextAction()
+    void Verifica3()
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
-
-        yield return new WaitForSeconds(10);
-        agent.SetDestination(otherDest.transform.position);
+        montarSushi.mesas.Add(montarSushi.otherDest);
+    }
+    IEnumerator NextAction()
+    {
+        yield return new WaitForSeconds(5);
+        Verifica3();
        
     }
 }

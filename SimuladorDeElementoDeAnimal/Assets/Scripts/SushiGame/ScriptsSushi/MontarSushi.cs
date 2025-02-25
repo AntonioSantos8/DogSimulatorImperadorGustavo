@@ -50,6 +50,8 @@ public class MontarSushi : MonoBehaviour
  
     public int numeroDeNpc;
     public GameObject naoFez;
+    public bool pedidoEntregue = false;
+    public GameObject otherDest;
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +65,10 @@ public class MontarSushi : MonoBehaviour
     {
         return montaSushi.mesas;
     }
-    
+    public static GameObject getOtherDest()
+    {
+        return montaSushi.otherDest;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -341,13 +346,13 @@ public class MontarSushi : MonoBehaviour
     }
     public void EntregarProCliente()
     {
-        bool pedidoEntregue = false;
-
+  
         if (pedidoLegal == "didRice_Salmao_Seaweed" && didRice_Salmao_Seaweed)
         {
             uiPedidos[0].SetActive(false);
             sushiDiddy[0].SetActive(false);
             pedidoEntregue = true;
+            
         }
         else if (pedidoLegal == "didRice_Seaweed_CreamCheese" && didRice_Seaweed_CreamCheese)
         {
