@@ -442,6 +442,7 @@ GameObject:
   m_Component:
   - component: {fileID: 179074467}
   - component: {fileID: 179074468}
+  - component: {fileID: 179074469}
   m_Layer: 0
   m_Name: NavMeshDest
   m_TagString: Destination
@@ -477,6 +478,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9999974, y: 1, z: 0.3612265}
   m_Center: {x: 0, y: 0, z: 0.3193868}
+--- !u!114 &179074469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 179074466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392dbd1e711fd2a41ac2acfdd71fc3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &183586710
 GameObject:
   m_ObjectHideFlags: 0
@@ -2239,6 +2252,7 @@ GameObject:
   m_Component:
   - component: {fileID: 711979990}
   - component: {fileID: 711979991}
+  - component: {fileID: 711979992}
   m_Layer: 0
   m_Name: NavMeshDest
   m_TagString: Destination
@@ -2274,6 +2288,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9999974, y: 1, z: 0.38534766}
   m_Center: {x: 0, y: 0, z: 0.3073261}
+--- !u!114 &711979992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 711979989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392dbd1e711fd2a41ac2acfdd71fc3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &732148866
 GameObject:
   m_ObjectHideFlags: 0
@@ -2597,11 +2623,11 @@ NavMeshObstacle:
   serializedVersion: 3
   m_Shape: 1
   m_Extents: {x: 0.5, y: 0.5, z: 0.5}
-  m_MoveThreshold: 0.1
+  m_MoveThreshold: 0
   m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
+  m_TimeToStationary: 0.62
 --- !u!1 &870491337
 GameObject:
   m_ObjectHideFlags: 0
@@ -3934,11 +3960,13 @@ MonoBehaviour:
   - {fileID: 3821372904143491714, guid: 997dbd62f03329642bc82cbe44c14260, type: 3}
   - {fileID: 391209214801326233, guid: 8c90b00a2fa0e0746958e844ba2727f3, type: 3}
   mesas:
-  - {fileID: 839953545}
-  - {fileID: 1594410189}
-  - {fileID: 853630130}
+  - {fileID: 179074466}
+  - {fileID: 1720267652}
+  - {fileID: 711979989}
   numeroDeNpc: 0
   naoFez: {fileID: 483030956}
+  pedidoEntregue: 0
+  otherDest: {fileID: 1767784497}
 --- !u!1 &1433754009
 GameObject:
   m_ObjectHideFlags: 0
@@ -4436,6 +4464,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1720267653}
   - component: {fileID: 1720267654}
+  - component: {fileID: 1720267655}
   m_Layer: 0
   m_Name: NavMeshDest
   m_TagString: Destination
@@ -4471,6 +4500,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.9999974, y: 1, z: 0.3937718}
   m_Center: {x: 0, y: 0, z: 0.30311406}
+--- !u!114 &1720267655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1720267652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 392dbd1e711fd2a41ac2acfdd71fc3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1767784497
 GameObject:
   m_ObjectHideFlags: 0
