@@ -5,6 +5,12 @@ using UnityEngine.Rendering;
 
 public class MontarSushi : MonoBehaviour
 {
+    [Header("Orders")]
+    public GameObject[] npcList; 
+    public Dictionary<GameObject, string> npcPedidos = new Dictionary<GameObject, string>();
+    public string pedidoAtual;
+    private GameObject npcAlvo; 
+
     [Header("Refrigerator")]
     bool canOpenRefrigerator;
     bool refrigeratorIsOpen;
@@ -38,7 +44,6 @@ public class MontarSushi : MonoBehaviour
     [Space]
     public GameObject[] sushiDiddy;
     public string[] receba2;
-    public string pedidoLegal;
     public GameObject[] uiPedidos;
     bool canTalkNpc;
     bool canInteractTrash;
@@ -47,7 +52,9 @@ public class MontarSushi : MonoBehaviour
     public GameObject[] npc;
     public static MontarSushi montaSushi;
     public List<GameObject> mesas;
+    string[] npcPedido;
  
+
     public int numeroDeNpc;
     public GameObject naoFez;
     public bool pedidoEntregue = false;
@@ -72,7 +79,6 @@ public class MontarSushi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(pedidoLegal);
         if (canOpenRefrigerator && Input.GetKeyDown(KeyCode.E))
         {
             refrigeratorIsOpen = !refrigeratorIsOpen;
@@ -111,7 +117,7 @@ public class MontarSushi : MonoBehaviour
         Verificacao2();
         if(canTalkNpc &&  Input.GetKeyDown(KeyCode.E))
         {
-            Order();
+            GerarPedidoParaNpc(npcAlvo);
         }
         if (canTalkNpc && Input.GetKeyDown(KeyCode.E))
         {
@@ -126,6 +132,11 @@ public class MontarSushi : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("NpcTalk"))
+        {
+            npcAlvo = other.gameObject; 
+            canTalkNpc = true;
+        }
         if (other.CompareTag("Refrigerator"))
         {
             canOpenRefrigerator = true;
@@ -154,6 +165,11 @@ public class MontarSushi : MonoBehaviour
     }
     private void OnTriggerExit(Collider other)
     {
+        if (other.CompareTag("NpcTalk"))
+        {
+            npcAlvo = other.gameObject; 
+            canTalkNpc = false;
+        }
         if (other.CompareTag("Refrigerator"))
         {
             canOpenRefrigerator = false;
@@ -174,6 +190,22 @@ public class MontarSushi : MonoBehaviour
             canInteractTrash = false;
 
         }
+    }
+    public void GerarPedidoParaNpc(GameObject npc)
+    {
+        string[] possiveisPedidos = { "didRice_Salmao_Seaweed", "didRice_Seaweed_CreamCheese", "didSalmao_Rice_Creamcheese", "didSalmao_CreamCheese" };
+        string pedidoAleatorio = possiveisPedidos[Random.Range(0, possiveisPedidos.Length)];
+
+        if (!npcPedidos.ContainsKey(npc))
+        {
+            npcPedidos.Add(npc, pedidoAleatorio);
+        }
+        else
+        {
+            npcPedidos[npc] = pedidoAleatorio;
+        }
+
+        Debug.Log($"NPC {npc.name} pediu: {pedidoAleatorio}");
     }
     public void RefrigeratorIngred(string type)
     {
@@ -314,81 +346,48 @@ public class MontarSushi : MonoBehaviour
     }
     void Verificacao2()
     {
-        if (pedidoLegal == "didRice_Salmao_Seaweed")
+        if (pedidoAtual == "didRice_Salmao_Seaweed")
         {
             uiPedidos[0].SetActive(true);
            
         }
-        if (pedidoLegal == "didRice_Seaweed_CreamCheese")
+        if (pedidoAtual == "didRice_Seaweed_CreamCheese")
         {
             uiPedidos[1].SetActive(true);
             
         }
-        if (pedidoLegal == "didSalmao_Rice_Creamcheese")
+        if (pedidoAtual == "didSalmao_Rice_Creamcheese")
         {
             uiPedidos[2].SetActive(true);
             
         }
-        if (pedidoLegal == "didSalmao_CreamCheese")
+        if (pedidoAtual == "didSalmao_CreamCheese")
         {
             uiPedidos[3].SetActive(true);
            
         }
         
     }
-    public void Order()
-    {
-        if (string.IsNullOrEmpty(pedidoLegal))
-        {
-            int randomIndex = Random.Range(0, receba2.Length);
-            pedidoLegal = receba2[randomIndex];
-        }
-    }
+    
     public void EntregarProCliente()
     {
-  
-        if (pedidoLegal == "didRice_Salmao_Seaweed" && didRice_Salmao_Seaweed)
+        if (npcAlvo == null || !npcPedidos.ContainsKey(npcAlvo))
         {
-            uiPedidos[0].SetActive(false);
-            sushiDiddy[0].SetActive(false);
-            pedidoEntregue = true;
-            
-        }
-        else if (pedidoLegal == "didRice_Seaweed_CreamCheese" && didRice_Seaweed_CreamCheese)
-        {
-            uiPedidos[1].SetActive(false);
-            sushiDiddy[1].SetActive(false);
-            pedidoEntregue = true;
-        }
-        else if (pedidoLegal == "didSalmao_Rice_Creamcheese" && didSalmao_Rice_Creamcheese)
-        {
-            uiPedidos[2].SetActive(false);
-            sushiDiddy[2].SetActive(false);
-            pedidoEntregue = true;
-        }
-        else if (pedidoLegal == "didSalmao_CreamCheese" && didSalmao_CreamCheese)
-        {
-            uiPedidos[3].SetActive(false);
-            sushiDiddy[3].SetActive(false);
-            pedidoEntregue = true;
+            Debug.Log("Nenhum NPC encontrado ou NPC não tem pedido.");
+            return;
         }
 
-        if (pedidoEntregue)
+        string pedidoDoNpc = npcPedidos[npcAlvo];
+
+        if (pedidoAtual == pedidoDoNpc)
         {
-            pedidoLegal = "";
- 
-            didRice_Salmao_Seaweed = false;
-            didRice_Seaweed_CreamCheese = false;
-            didSalmao_Rice_Creamcheese = false;
-            didSalmao_CreamCheese = false;
-            putSalmon = false;
-            putCreamcheese = false;
-            putRice = false;
-            putSeaweed = false;
+            Debug.Log($"Pedido entregue corretamente para {npcAlvo.name}!");
+            npcPedidos.Remove(npcAlvo);
+            pedidoAtual = "";
         }
         else
         {
-            
+            Debug.Log($"Este não é o pedido correto para {npcAlvo.name}. Ele queria {pedidoDoNpc}.");
         }
     }
 

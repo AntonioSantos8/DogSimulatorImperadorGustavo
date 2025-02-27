@@ -3927,6 +3927,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a2e973b5bf81044e99f56034ff77c79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  npcList:
+  - {fileID: 3821372904143491714, guid: 997dbd62f03329642bc82cbe44c14260, type: 3}
+  - {fileID: 391209214801326233, guid: 8c90b00a2fa0e0746958e844ba2727f3, type: 3}
+  pedidoAtual: 
   refrigeratorPanel: {fileID: 1630910947}
   refrigeratorIngredients:
   - {fileID: 1114769217}
@@ -3949,7 +3953,6 @@ MonoBehaviour:
   - didRice_Seaweed_CreamCheese
   - didSalmao_Rice_Creamcheese
   - didSalmao_CreamCheese
-  pedidoLegal: 
   uiPedidos:
   - {fileID: 493193065}
   - {fileID: 504401225}
