@@ -9,13 +9,20 @@ public class ApareceEdesaparece : MonoBehaviour
     public GameObject[] buttons;
     public TMP_Text texto;
     GameObject buttonToApear;
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("Points"))
+        {
+            Pontuacao.pontos = PlayerPrefs.GetInt("Points");
+        }
+    }
     private void Update()
     {
+        PlayerPrefs.SetInt("Points", Pontuacao.pontos);
         texto.text = Pontuacao.pontos.ToString();
     }
     public void ClickToStart(GameObject btnToStart)
     {
-        
         do
         {
             buttonToApear = buttons[Random.Range(0, buttons.Length)];
