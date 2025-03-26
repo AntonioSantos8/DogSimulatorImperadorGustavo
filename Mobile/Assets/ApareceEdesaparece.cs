@@ -9,6 +9,7 @@ public class ApareceEdesaparece : MonoBehaviour
     public GameObject[] buttons;
     public TMP_Text texto;
     GameObject buttonToApear;
+    GameObject proxBtn;
     private void Start()
     {
         if (PlayerPrefs.HasKey("Points"))
@@ -23,20 +24,27 @@ public class ApareceEdesaparece : MonoBehaviour
     }
     public void ClickToStart(GameObject btnToStart)
     {
+        Sorteia(btnToStart);
+        proxBtn = btnToStart;
+
+    }
+    
+   void Sorteia(GameObject btnToStart)
+    {
         do
         {
             buttonToApear = buttons[Random.Range(0, buttons.Length)];
         }
         while (buttonToApear == btnToStart);
-
         buttonToApear.SetActive(true);
-        
+
         btnToStart.SetActive(false);
         Pontuacao.pontos++;
-        
     }
-    
-   
+    void Armazena()
+    {
+         
+    }
 }
 public static class Pontuacao
 {
