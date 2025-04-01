@@ -26,7 +26,7 @@ public class ApareceEdesaparece : MonoBehaviour
     {
         Sorteia(btnToStart);
         proxBtn = btnToStart;
-
+        Pontuacao.startou = true;
     }
     
    void Sorteia(GameObject btnToStart)
@@ -49,4 +49,5 @@ public class ApareceEdesaparece : MonoBehaviour
 public static class Pontuacao
 {
     public static int pontos;
+    public static bool startou;
 }
