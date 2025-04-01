@@ -5,39 +5,40 @@ using UnityEngine.SceneManagement;
 
 public class EventoAleatorio : MonoBehaviour
 {
-    GameObject[] buttons;
+    public GameObject[] buttons;
     GameObject buttonToApear;
+    bool eventStarted = false;
     // Start is called before the first frame update
     void Start()
     {
-        while (true)
-        {
-            if (Pontuacao.startou)
-            {
-                StartCoroutine(EventoAleat());
-            }
-        }
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
-    }
-    void Sorteia(GameObject btnToStart)
-    {
-        do
+        if (Pontuacao.startou && !eventStarted)
         {
-            buttonToApear = buttons[Random.Range(0, buttons.Length)];
+            eventStarted = true;
+            StartCoroutine(EventoAleat());
         }
-        while (buttonToApear == btnToStart);
-        SceneManager.LoadScene("DarkPhase");
-        btnToStart.SetActive(false);
+    }
+    void Sorteia()
+    {
+        
+        buttonToApear = buttons[Random.Range(0, buttons.Length)];
+        buttonToApear.SetActive(true);
+
+    }
+    public void NextScene()
+    {
+        SceneManager.LoadScene("FaseDark");
     }
     IEnumerator EventoAleat()
     {
-
-        yield return new WaitForSeconds(10);
-
+        int time = Random.Range(0, 60);
+        yield return new WaitForSeconds(time);
+        Sorteia();
+        Pontuacao.startou = false;
     }
 }

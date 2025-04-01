@@ -11,20 +11,31 @@ public class DarkPhase : MonoBehaviour
     public TMP_Text texto;
     GameObject buttonToApear;
     GameObject proxBtn;
-    int pontos;
+    int pontus;
+    
     public void ClickToStart(GameObject btnToStart)
     {
         Sorteia(btnToStart);
         proxBtn = btnToStart;
 
     }
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("Points"))
+        {
+            Pontuacao.pontos = PlayerPrefs.GetInt("Points");
+        }
+    }
     private void Update()
     {
-        if(pontos >= 20)
+        PlayerPrefs.SetInt("Points", Pontuacao.pontos);
+        if (pontus >= 20)
         {
+            
+
             SceneManager.LoadScene("EasyMode");
         }
-        texto.text = pontos.ToString();
+        texto.text = pontus.ToString();
     }
     void Sorteia(GameObject btnToStart)
     {
@@ -36,6 +47,8 @@ public class DarkPhase : MonoBehaviour
         buttonToApear.SetActive(true);
 
         btnToStart.SetActive(false);
-        pontos++;
+        Pontuacao.pontos += 20;
+ 
+        pontus += 2;
     }
 }
