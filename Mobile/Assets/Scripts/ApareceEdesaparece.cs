@@ -10,6 +10,7 @@ public class ApareceEdesaparece : MonoBehaviour
     public TMP_Text texto;
     GameObject buttonToApear;
     GameObject proxBtn;
+    public GameObject pontoQueGanho;
     private void Start()
     {
         if (PlayerPrefs.HasKey("Points"))
@@ -40,10 +41,13 @@ public class ApareceEdesaparece : MonoBehaviour
 
         btnToStart.SetActive(false);
         Pontuacao.pontos++;
+        StartCoroutine(ApareceEdesa());
     }
-    void Armazena()
+    IEnumerator ApareceEdesa()
     {
-         
+        pontoQueGanho.SetActive(true);
+        yield return new WaitForSeconds(0.2f);
+        pontoQueGanho.SetActive(false);
     }
 }
 public static class Pontuacao

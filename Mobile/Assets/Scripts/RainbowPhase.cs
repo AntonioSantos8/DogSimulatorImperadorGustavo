@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class DarkPhase : MonoBehaviour
+public class RainbowPhase : MonoBehaviour
 {
     [SerializeField] GameObject startBTN;
     public GameObject[] buttons;
@@ -13,7 +13,7 @@ public class DarkPhase : MonoBehaviour
     GameObject proxBtn;
     int pontus;
     bool faseTerminou;
-    int tempoPraAcaba = 5;
+    int tempoPraAcaba = 8;
     public TMP_Text tempoPraAcabaTXT;
     public void ClickToStart(GameObject btnToStart)
     {
@@ -24,6 +24,7 @@ public class DarkPhase : MonoBehaviour
     private void Start()
     {
         tempoPraAcabaTXT.text = "Tempo: " + tempoPraAcaba.ToString();
+
         if (PlayerPrefs.HasKey("Points"))
         {
             Pontuacao.pontos = PlayerPrefs.GetInt("Points");
@@ -33,13 +34,12 @@ public class DarkPhase : MonoBehaviour
     private void Update()
     {
         PlayerPrefs.SetInt("Points", Pontuacao.pontos);
-        if (pontus >= 20 && !faseTerminou)
+        if (pontus >= 100 && !faseTerminou)
         {
             faseTerminou = true;
             StartCoroutine(TrocarDeFase());
         }
         texto.text = pontus.ToString();
-        
     }
     void Sorteia(GameObject btnToStart)
     {
@@ -51,25 +51,25 @@ public class DarkPhase : MonoBehaviour
         buttonToApear.SetActive(true);
 
         btnToStart.SetActive(false);
-        
- 
-        pontus += 2;
+
+
+        pontus += 5;
     }
     IEnumerator TrocarDeFase()
     {
-        Pontuacao.pontos += pontus; 
-        PlayerPrefs.SetInt("Points", Pontuacao.pontos); 
+        Pontuacao.pontos += pontus;
+        PlayerPrefs.SetInt("Points", Pontuacao.pontos);
         PlayerPrefs.Save();
 
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.5f);
 
-        SceneManager.LoadScene("EasyMode"); 
+        SceneManager.LoadScene("EasyMode");
     }
     IEnumerator LimiteDeTempo()
     {
-        while(tempoPraAcaba >= 0)
+        while (tempoPraAcaba >= 0)
         {
-            
+
             yield return new WaitForSeconds(1);
             tempoPraAcaba--;
             tempoPraAcabaTXT.text = "Tempo: " + tempoPraAcaba.ToString();
