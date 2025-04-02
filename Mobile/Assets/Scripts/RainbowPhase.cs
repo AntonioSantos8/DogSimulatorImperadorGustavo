@@ -74,6 +74,10 @@ public class RainbowPhase : MonoBehaviour
             tempoPraAcaba--;
             tempoPraAcabaTXT.text = "Tempo: " + tempoPraAcaba.ToString();
         }
+        Pontuacao.pontos += pontus;
+        PlayerPrefs.SetInt("Points", Pontuacao.pontos);
+        PlayerPrefs.Save();
+
         SceneManager.LoadScene("EasyMode");
 
     }

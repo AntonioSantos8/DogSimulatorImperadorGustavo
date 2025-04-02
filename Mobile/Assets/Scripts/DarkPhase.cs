@@ -57,11 +57,12 @@ public class DarkPhase : MonoBehaviour
     }
     IEnumerator TrocarDeFase()
     {
+        print(pontus);
         Pontuacao.pontos += pontus; 
         PlayerPrefs.SetInt("Points", Pontuacao.pontos); 
         PlayerPrefs.Save();
 
-        yield return new WaitForSeconds(0.5f); 
+        yield return new WaitForSeconds(0.3f); 
 
         SceneManager.LoadScene("EasyMode"); 
     }
@@ -74,6 +75,10 @@ public class DarkPhase : MonoBehaviour
             tempoPraAcaba--;
             tempoPraAcabaTXT.text = "Tempo: " + tempoPraAcaba.ToString();
         }
+        Pontuacao.pontos += pontus;
+        PlayerPrefs.SetInt("Points", Pontuacao.pontos);
+        PlayerPrefs.Save();
+
         SceneManager.LoadScene("EasyMode");
 
     }

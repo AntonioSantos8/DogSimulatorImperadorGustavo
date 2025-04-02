@@ -35,6 +35,7 @@ public class EventoAleatorio : MonoBehaviour
     void SorteiaBTNRainbow()
     {
         buttonToApearRainbow = buttonsRainbow[Random.Range(0, buttonsRainbow.Length)];
+        buttonToApearRainbow.SetActive(true);
     }
     public void NextScene(string sceneName)
     {
@@ -49,7 +50,7 @@ public class EventoAleatorio : MonoBehaviour
 
     IEnumerator EventoAleat()
     {
-        int time = Random.Range(0, 30);
+        int time = Random.Range(0, 15);
         yield return new WaitForSeconds(time);
         SorteiaBTNPreto();
         StartCoroutine(EventoAleatorioArcoIris());
@@ -58,11 +59,13 @@ public class EventoAleatorio : MonoBehaviour
     }
     IEnumerator EventoAleatorioArcoIris()
     {
-        int chance = Random.Range(1, 5);
-        yield return new WaitForSeconds(1);
-        if(chance == 1)
+        int chance = Random.Range(1, 4);
+        if (chance == 1)
         {
             SorteiaBTNRainbow();
         }
+        yield return new WaitForSeconds(1);
+        buttonToApearRainbow.SetActive(false);
+        
     }
 }

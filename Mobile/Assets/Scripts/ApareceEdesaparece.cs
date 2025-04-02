@@ -20,7 +20,7 @@ public class ApareceEdesaparece : MonoBehaviour
     }
     private void Update()
     {
-        PlayerPrefs.SetInt("Points", Pontuacao.pontos);
+       
         texto.text = Pontuacao.pontos.ToString();
     }
     public void ClickToStart(GameObject btnToStart)
@@ -41,6 +41,7 @@ public class ApareceEdesaparece : MonoBehaviour
 
         btnToStart.SetActive(false);
         Pontuacao.pontos++;
+        PlayerPrefs.SetInt("Points", Pontuacao.pontos);
         StartCoroutine(ApareceEdesa());
     }
     IEnumerator ApareceEdesa()
