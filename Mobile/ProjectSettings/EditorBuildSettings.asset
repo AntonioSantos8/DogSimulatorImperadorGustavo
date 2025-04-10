@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/FaseRainbow.unity
     guid: 5e2688eab3f921d47ad42e1f12af6d33
+  - enabled: 1
+    path: Assets/Scenes/FaseDesafiadora.unity
+    guid: 0118123e854a4994caa258e67416bb1e
   m_configObjects: {}

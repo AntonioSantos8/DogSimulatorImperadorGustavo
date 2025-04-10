@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,65 +6,74 @@ public class EventoAleatorio : MonoBehaviour
 {
     public GameObject[] buttonsPreto;
     public GameObject[] buttonsRainbow;
-    GameObject buttonToApear;
-    GameObject buttonToApearRainbow;
-    bool eventStarted = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
+    private bool eventoRodando = false;
+
     void Update()
     {
-        if (Pontuacao.startou && !eventStarted)
+        if (Pontuacao.startou && !eventoRodando)
         {
-            eventStarted = true;
-            StartCoroutine(EventoAleat());
+            eventoRodando = true;
+            StartCoroutine(ExecutarEventos());
+            StartCoroutine(ChecarTrocaDeCena());
         }
     }
-    void SorteiaBTNPreto()
+
+    IEnumerator ExecutarEventos()
     {
-        
-        buttonToApear = buttonsPreto[Random.Range(0, buttonsPreto.Length)];
-        StartCoroutine(AtivaEdesativaBTN(buttonToApear));
-        
+        while (eventoRodando)
+        {
+            yield return StartCoroutine(EventoBotaoPreto());
+            yield return StartCoroutine(EventoBotaoRainbow());
+            yield return new WaitForSeconds(Random.Range(1f, 6f));
+        }
     }
-    void SorteiaBTNRainbow()
+
+    IEnumerator EventoBotaoPreto()
     {
-        buttonToApearRainbow = buttonsRainbow[Random.Range(0, buttonsRainbow.Length)];
-        buttonToApearRainbow.SetActive(true);
+        if (buttonsPreto.Length == 0) yield break;
+
+        int chance = Random.Range(1, 3);
+        if(chance == 1)
+        {
+            GameObject btn = buttonsPreto[Random.Range(0, buttonsPreto.Length)];
+            btn.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            btn.SetActive(false);
+        }
     }
+
+    IEnumerator EventoBotaoRainbow()
+    {
+        if (buttonsRainbow.Length == 0) yield break;
+
+        int chance = Random.Range(1, 5); 
+        if (chance == 1)
+        {
+            GameObject btnRainbow = buttonsRainbow[Random.Range(0, buttonsRainbow.Length)];
+            btnRainbow.SetActive(true);
+            yield return new WaitForSeconds(1f);
+            btnRainbow.SetActive(false);
+        }
+    }
+
+    IEnumerator ChecarTrocaDeCena()
+    {
+        while (eventoRodando)
+        {
+            yield return new WaitForSeconds(5f);
+
+            int chanceCena = Random.Range(1, 3); 
+            if (chanceCena == 1)
+            {
+                SceneManager.LoadScene("FaseDesafiadora"); 
+                
+            }
+        }
+    }
+
     public void NextScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-    }
-    IEnumerator AtivaEdesativaBTN(GameObject btnToDesactive)
-    {
-        btnToDesactive.SetActive(true);
-        yield return new WaitForSeconds(1);
-        btnToDesactive.SetActive(false);
-    }
-
-    IEnumerator EventoAleat()
-    {
-        int time = Random.Range(0, 15);
-        yield return new WaitForSeconds(time);
-        SorteiaBTNPreto();
-        StartCoroutine(EventoAleatorioArcoIris());
-        Pontuacao.startou = false;
-        StartCoroutine(EventoAleat());
-    }
-    IEnumerator EventoAleatorioArcoIris()
-    {
-        int chance = Random.Range(1, 4);
-        if (chance == 1)
-        {
-            SorteiaBTNRainbow();
-        }
-        yield return new WaitForSeconds(1);
-        buttonToApearRainbow.SetActive(false);
-        
     }
 }
